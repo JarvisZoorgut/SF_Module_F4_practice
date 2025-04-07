@@ -2,6 +2,7 @@ from rest_framework import generics
 from .models import Recipe, Category
 from .serializers import RecipeSerializer, CategorySerializer
 
+
 class CategoryListView(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
