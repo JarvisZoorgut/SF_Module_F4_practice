@@ -6,6 +6,7 @@ import RecipeList from './components/RecipeList';
 import RecipeDetail from './components/RecipeDetail';
 import AddCategory from './components/AddCategory';
 import AddRecipe from './components/AddRecipe';
+import CategoryPage from './components/CategoryPage'
 
 import Navbar from './components/Navbar';
 
@@ -17,7 +18,8 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categories" element={<CategoryList />} />
-          <Route path="/categories/:categoryId" element={<RecipeList />} />
+          <Route path="/categories/:categoryId" element={<CategoryPage />} />
+          <Route path="/recipes" element={<RecipeList />} />
           <Route path="/recipes/:recipeId" element={<RecipeDetail />} />
           <Route path="/add-category" element={<AddCategory />} />
           <Route path="/add-recipe" element={<AddRecipe />} />  

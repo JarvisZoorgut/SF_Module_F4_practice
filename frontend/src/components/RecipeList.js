@@ -1,40 +1,45 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import axios from 'axios';
-
-const API_URL = 'http://localhost:8000/api';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { getRecipes } from "../services/api"; // предполагаем, что есть такой метод
 
 function RecipeList() {
-  const { categoryId } = useParams();
   const [recipes, setRecipes] = useState([]);
-  const [categoryName, setCategoryName] = useState('');
 
   useEffect(() => {
-    async function fetchRecipes() {
-      try {
-        const response = await axios.get(`${API_URL}/categories/${categoryId}/`);
-        setRecipes(response.data.recipes);
-        setCategoryName(response.data.name);
-      } catch (error) {
-        console.error('Ошибка при загрузке рецептов:', error);
-      }
-    }
-    fetchRecipes();
-  }, [categoryId]);
+    getRecipes()
+      .then((response) => setRecipes(response.data))
+      .catch((error) => console.error("Ошибка при получении рецептов:", error));
+  }, []);
 
   return (
-    <div className="p-4">
-      <h2 className="text-2xl font-bold mb-4">Категория: {categoryName}</h2>
-      <ul className="space-y-4">
-        {recipes.map((recipe) => (
-          <li key={recipe.id} className="border p-4 rounded shadow">
-            <Link to={`/recipes/${recipe.id}`} className="text-lg font-semibold text-blue-600 hover:underline">
-              {recipe.title}
-            </Link>
-            <p className="text-gray-600">{recipe.description}</p>
-          </li>
-        ))}
-      </ul>
+    <div className="container mt-4">
+      <h1 className="mb-4">Все рецепты</h1>
+      <table className="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Название рецепта</th>
+            <th>Категория</th>
+            <th>Действия</th>
+          </tr>
+        </thead>
+        <tbody>
+          {recipes.map((recipe) => (
+            <tr key={recipe.id}>
+              <td>{recipe.id}</td>
+              <td>
+                {recipe.title}
+              </td>
+              <td>{recipe.category.name}</td>
+              <td>
+                <Link to={`/recipes/${recipe.id}`} className="btn btn-info btn-sm">
+                  Подробнее
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -13,7 +13,7 @@ function CategoryList() {
 
   return (
     <div>
-      <h1>Categories</h1>
+      <h1>Категории</h1>
       <ul>
         {categories.map((category) => (
           <li key={category.id}>
